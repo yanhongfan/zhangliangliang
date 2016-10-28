@@ -1,119 +1,79 @@
-var banner = utils.getElesByClass('banner', document)[0];
-var bannerInner = utils.getElesByClass('bannerInner', banner)[0];
-var imgs = bannerInner.getElementsByTagName('img');
-var focusList = utils.getElesByClass('focusList', banner)[0];
-var lis = focusList.getElementsByTagName('li');
-var leftBtn = utils.getElesByClass('left', banner)[0];
-var rightBtn = utils.getElesByClass('right', banner)[0];
-console.log(focusList);
-//获取数据
-;
-(function getData() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('get', 'data.txt?_=' + Math.random(), false);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && (/^2\d{2}$/).test(xhr.status)) {
-            window.data = utils.jsonParse(xhr.responseText);
+FastClick.attach(document.body);
 
+//->REM
+~function () {
+    var desW = 640,
+        winW = document.documentElement.clientWidth,
+        ratio = winW / desW,
+        oMain = document.querySelector('.main');
+    if (winW > desW) {
+        oMain.style.margin = '0 auto';
+        oMain.style.width = desW + 'px';
+        return;
+    }
+    document.documentElement.style.fontSize = ratio * 100 + 'px';
+}();
+
+
+//->INIT SWIPER
+new Swiper('.swiper-container', {
+    direction: 'vertical',
+    loop: true,
+    /*当切换结束后,给当前展示的区域添加对应的ID,由此实现对应的动画效果*/
+    onSlideChangeEnd: function (swiper) {
+        //swiper.slides:获取当前一共有多少个活动块(包含LOOP模式先前后多加的两个)
+        //swiper.activeIndex:当前展示这个区域的索引
+        var slideAry = swiper.slides,
+            curIn = swiper.activeIndex,
+            total = slideAry.length;
+
+        //->计算ID是PAGE?
+        var targetId = 'page';
+        switch (curIn) {
+            case 0:
+                targetId += total - 2;
+                break;
+            case (total - 1):
+                targetId += 1;
+                break;
+            default:
+                targetId += curIn;
         }
+
+        //->给当前的活动快设置ID即可,还要把其余的移除
+        [].forEach.call(slideAry, function (item, index) {
+            if (curIn === index) {
+                item.id = targetId;
+                return;
+            }
+            item.id = null;
+        });
     }
-    xhr.send(null);
-})();
-//绑定数据
-;
-(function bindData() {
-    if (window.data) {
-        var str = '';
-        var strLis = '';
-        for (var i = 0; i < data.length; i++) {
-            var cutData = data[i];
-            str += '<div><images src="" realSrc="' + cutData.src + '"/></div>';
-            strLis += i == 0 ? '<li class="selected"></li>' : '<li></li>';
+});
+
+//->MUSIC
+~function () {
+    var musicMenu = document.getElementById('musicMenu'),
+        musicAudio = document.getElementById('musicAudio');
+
+    musicMenu.addEventListener('click', function () {
+        if (musicAudio.paused) {//->暂停
+            musicAudio.play();
+            musicMenu.className = 'music move';
+            return;
         }
-        str += '<div><images src="" realSrc="' + data[0].src + '"/></div>';
-        utils.css(bannerInner, 'width', (data.length + 1) * 1000);
+        musicAudio.pause();
+        musicMenu.className = 'music';
+    }, false);
 
-        bannerInner.innerHTML = str;
-        focusList.innerHTML = strLis;
-    }
-})();
-//图片延迟加载
-function allImagDeyload() {
-    for (var i = 0; i < imgs.length; i++) {
-        var curImg = imgs[i];
-        var tempImg = new Image();
-        tempImg.index = i;
-        tempImg.src = curImg.getAttribute('realSrc');
-        tempImg.onload = function () {
-            imgs[this.index].src = this.src;
-            imgs[this.index].style.display = 'block';
-        }
-    }
-}
-
-window.setTimeout(allImagDeyload, 300);
-//实现自动轮播
-var step = 0;
-function autoMove() {
-
-    if (step == 4) {
-        step = 0;
-        utils.css(bannerInner, 'left', -1000 * step);
-    }
-    step++;
-    animate(bannerInner, {left: -1000 * step}, 500);
-    console.log(step);
-    focusAlign();
-
-};
-var timer = window.setInterval(autoMove, 2000);
-//焦点绑定
-function focusAlign() {
-    for (var i = 0; i < lis.length; i++) {
-        var stepTemp = 0;
-        if (step == data.length) {
-            stepTemp = 0;
-        } else {
-            stepTemp = step;
-        }
-        if (i === stepTemp) {
-            lis[i].className = 'selected';
-
-        } else {
-            lis[i].className = '';
-        }
-    }
-}
-//鼠标悬停在图片上的时候需要停止播放
-banner.onmouseover = function () {
-    window.clearInterval(timer);
-    leftBtn.style.display = rightBtn.style.display = 'block';
-
-};
-banner.onmouseout = function () {
-    timer = window.setInterval(autoMove, 3000);
-    leftBtn.style.display = rightBtn.style.display = 'none';
-};
-//点击左右按钮切换图片
-leftBtn.onclick = function () {
-    if(step==0){
-        step=data.length;
-        utils.css(bannerInner,'left',-1000*step);
-    }
-    step--;
-    animate(bannerInner, {left: -1000 * step}, 500);
-    focusAlign();
-};
-rightBtn.onclick=autoMove;
-//点击焦点图片切换
-(function bindEventForList(){
-    for(var i=0;i<lis.length;i++){
-        lis[i].index=i;
-        lis[i].onclick=function(){
-            step=this.index;
-            animate(bannerInner,{left:-1000*step},500);
-            focusAlign();
-        }
+    function controlMusic() {
+        musicAudio.volume = 0.1;
+        musicAudio.play();
+        musicAudio.addEventListener('canplay', function () {
+            musicMenu.style.display = 'block';
+            musicMenu.className = 'music move';
+        }, false);
     }
 
-})();
+    window.setTimeout(controlMusic, 1000);
+}();

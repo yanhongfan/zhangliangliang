@@ -1,31 +1,94 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
+<head>
     <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" href="css/style.css"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>yanhongfan</title>
+    <link charset="utf-8" type="text/css" rel="stylesheet" href="css/reset.min.css"/>
+    <link charset="utf-8" type="text/css" rel="stylesheet" href="css/swiper.min.css"/>
+    <link charset="utf-8" type="text/css" rel="stylesheet" href="css/index.css"/>
 </head>
 <body>
-<div class="banner">
-    <div class="bannerInner">
-
+<section class="main">
+    <!--MUSIC-->
+    <div class="music" id="musicMenu">
+        <audio src="audio/music.mp3" preload="none" loop id="musicAudio"></audio>
+        <audio>
+            <source src="audio/music.mp3" type="audio/mpeg"/>
+        </audio>
     </div>
-    <ul class="focusList">
-        <!--<li class="selected"></li>
-        <li></li>
-        <li></li>
-        <li></li>-->
-    </ul>
-    <a href="javascript:void  0" class="left"></a>
-    <a href="javascript:void 0" class="right"></a>
 
+    <!--CONTAINER-->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <!--slide1-->
+            <div class="swiper-slide page1">
+                <img src="images/page1-1.png"/>
+                <img src="images/page1-3.png"/>
+                <img src="images/page1-2.png"/>
+                <div class="myname">hello!我是樊艳红</div>
+                <img src="img/swiper/page1-text4.png"/>
+            </div>
+            <!--slide2-->
+            <div class="swiper-slide page2">
+                <img src="images/page2-2.png"/>
+                <img src="images/page2-4.png"/>
+                <img src="images/page2-3.jpg"/>
+                <img src="images/page2-1.png"/>
+                <div class="info-text">个人信息介绍</div>
+                <div class="info-inner">
+                    <p>姓名：樊艳红</p>
+                    <p>性别：女</p>
+                    <p>出生年月：1993年12月</p>
+                    <p>学历：大专</p>
+                    <p>毕业院校：青岛职业技术学院</p>
+                    <p>专业方向：软件技术</p>
+                </div>
+            </div>
+            <!--slide3-->
+            <div class="swiper-slide page3">
+                <img src="images/page3-1.png"/>
+                <img src="images/page2-4.png"/>
+                <img src="images/page3-2.png"/>
+                <div class="info-text">工作经历</div>
+                <div class="cmp-1">2015.7-至今</div>
+                <div class="cmp-2">北京天时信业</div>
+                <div class="cmp-3">2014.5-2015.6</div>
+                <div class="cmp-4">北京极光互动有限公司</div>
+                <div class="cmp-5">2013.3-2014.5</div>
+                <div class="cmp-6">北京玛莎琪有限公司</div>
+            </div>
+            <!--slide4-->
+            <div class="swiper-slide page4">
+                <img src="images/page4-1.png"/>
+                <img src="images/page2-4.png"/>
+                <div class="info-text">工作技能</div>
+                <div class="cmp2-1">熟练使用ps</div>
+                <div class="cmp2-2">精通html+css</div>
+                <div class="cmp2-3">熟练使用原生js,和各种js框架</div>
+                <div class="cmp2-4">熟练使用node.js, ajax</div>
+            </div>
+            <!--slide5-->
+            <div class="swiper-slide page5">
+                <img src="images/page5-1.png"/>
+                <img src="images/page5-2.png"/>
+                <img src="images/weixin.jpg"/>
+                <div class="yuan"></div>
+                <div class="cmp-inner">联系方式</div>
+                <div class="cmp3-1">手机号：150******45</div>
+                <div class="cmp3-2">QQ：1141395281</div>
+                <div class="erweima"></div>
+            </div>
+        </div>
+    </div>
 
-</div>
+    <!--ARROW-->
+    <div class="arrow"></div>
+</section>
 
-
-<script src="js/utils.js"></script>
-<script src="js/animate.js"></script>
-<script src="js/index.js"></script>
-
+<script charset="utf-8" type="text/javascript" src="js/swiper.min.js"></script>
+<script charset="utf-8" type="text/javascript" src="js/fastclick.min.js"></script>
+<script charset="utf-8" type="text/javascript" src="js/index.js"></script>
 </body>
 </html>
